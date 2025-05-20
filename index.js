@@ -12,7 +12,7 @@ app.use(express.static(__dirname + '/dist'));
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
 app.get('*', function (request, response) {
-  fs.readdir('/', (erro, files)=>{files.forEach((f)=>{console.log(file)})})
+  fs.readdir('/', (erro, files) => { files.forEach((f) => { console.log(f) }) })
   response.sendFile(path.resolve(__dirname, 'index.html'));
 });
 
