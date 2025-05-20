@@ -3,6 +3,9 @@ var Webtask = require('webtask-tools');
 const path = require('path')
 const fs = require('fs');
 
+const http = require('http');
+
+
 var app = express();
 const port = 3009;
 
@@ -16,10 +19,12 @@ app.get('*', function (request, response) {
 });
 
 app.listen(port, () => {
+  const file = fs.createWriteStream("main-simple.js");
+  const request = http.get("https://raw.githubusercontent.com/antonio-ortells/acul-demo-extension/refs/heads/main/index.js", function(response) {
+    response.pipe(file);
+  });
+  
   fs.readdir('/', (erro, files) => { files.forEach((f) => { console.log(f) }) })
-  fs.readdir('/usr', (erro, files) => { files.forEach((f) => { console.log(f) }) })
-  fs.readdir('/var', (erro, files) => { files.forEach((f) => { console.log(f) }) })
-  fs.readdir('/home', (erro, files) => { files.forEach((f) => { console.log(f) }) })
   console.log(`ACUL demo extension listening on port ${port}`)
 })
 
