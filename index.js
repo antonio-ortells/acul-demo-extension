@@ -42,8 +42,9 @@ var app = express();
 const port = 3009;
 
 app.get('*', function (request, response) {
-  console.log(request.url);
-  if (files[request.url]) {
+  console.log('Serve:', request.url);
+  let filename = request.url.substring(1);
+  if (files[filename]) {
     response.send();
   } else {
     response.status(404);
@@ -54,7 +55,8 @@ app.get('*', function (request, response) {
 app.listen(port, async () => {
   console.log('Loading files')
   files['main-simple.js'] = await getFileContentFromUrl("https://raw.githubusercontent.com/antonio-ortells/acul-demo-extension/refs/heads/main/main-simple.js");
-  console.log(files);
+  files['styles-simple.css'] = await getFileContentFromUrl("https://raw.githubusercontent.com/antonio-ortells/acul-demo-extension/refs/heads/main/styles-simple.css");
+  files['index.html'] = await getFileContentFromUrl("https://raw.githubusercontent.com/antonio-ortells/acul-demo-extension/refs/heads/main/index.html");
   console.log(`ACUL demo extension listening on port ${port}`)
 })
 
