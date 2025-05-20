@@ -1,30 +1,60 @@
 var express = require('express');
 var Webtask = require('webtask-tools');
-const path = require('path')
-const fs = require('fs');
 
-const http = require('http');
+const https = require('https');
+
+var files = {
+}
+
+async function getFileContentFromUrl(url) {
+  return new Promise((resolve, reject) => {
+      https.get(url, (res) => {
+          let data = '';
+
+          // A chunk of data has been received.
+          res.on('data', (chunk) => {
+              data += chunk; // For text files
+              // For binary files, you might want to use Buffer.concat later
+              // let bufferChunks = [];
+              // bufferChunks.push(chunk);
+          });
+
+          // The whole response has been received.
+          res.on('end', () => {
+              // If it's a text file, 'data' string is fine.
+              // If it's a binary file, you might need to convert it to a Buffer:
+              // const fullBuffer = Buffer.concat(bufferChunks);
+              // resolve(fullBuffer);
+              resolve(data);
+          });
+
+          res.on('error', (err) => {
+              reject(new Error(`Error fetching file: ${err.message}`));
+          });
+      }).on('error', (err) => {
+          reject(new Error(`Request failed: ${err.message}`));
+      });
+  });
+}
 
 
 var app = express();
 const port = 3009;
 
-// serve static assets normally
-app.use(express.static(__dirname));
-
-// handle every other route with index.html, which will contain
-// a script tag to your application's JavaScript file(s).
 app.get('*', function (request, response) {
-  response.sendFile(path.resolve(__dirname, 'index.html'));
+  console.log(request.url);
+  if (files[request.url]) {
+    response.send();
+  } else {
+    response.status(404);
+    response.send();
+  }
 });
 
-app.listen(port, () => {
-  const file = fs.createWriteStream("main-simple.js");
-  const request = http.get("https://raw.githubusercontent.com/antonio-ortells/acul-demo-extension/refs/heads/main/index.js", function(response) {
-    response.pipe(file);
-  });
-  
-  fs.readdir('/', (erro, files) => { files.forEach((f) => { console.log(f) }) })
+app.listen(port, async () => {
+  console.log('Loading files')
+  files['main-simple.js'] = await getFileContentFromUrl("https://raw.githubusercontent.com/antonio-ortells/acul-demo-extension/refs/heads/main/main-simple.js");
+  console.log(files);
   console.log(`ACUL demo extension listening on port ${port}`)
 })
 
