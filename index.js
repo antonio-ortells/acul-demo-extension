@@ -43,7 +43,7 @@ const port = 3009;
 
 app.get('*', function (request, response) {
   let filename = request.url.substring(1);
-  console.log('Serve:', filename);
+  console.log('Serve filename:', filename);
   console.log(this.files.keys())
   if (files[filename]) {
     response.send();
