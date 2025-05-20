@@ -4,8 +4,6 @@ var Webtask = require('webtask-tools');
 const https = require('https');
 
 const GITHUB_RAW = 'https://raw.githubusercontent.com/antonio-ortells/acul-demo-extension/refs/heads/main';
-var files = {
-}
 
 async function getFileContentFromUrl(url) {
   return new Promise((resolve, reject) => {
@@ -41,12 +39,12 @@ async function getFileContentFromUrl(url) {
 var app = express();
 const port = 3009;
 
-app.get('*', function (request, response) {
-  let filename = request.url.substring(1);
-  console.log('Serve filename:', filename);
-  console.log(files)
-  if (files[filename]) {
-    response.send();
+app.get('*', async function (request, response) {
+  request.url
+  console.log('Serve:', request.url);
+  let f = await getFileContentFromUrl(`${GITHUB_RAW}${request.url}`);
+  if (f) {
+    response.send(f);
   } else {
     response.status(404);
     response.send();
@@ -54,10 +52,6 @@ app.get('*', function (request, response) {
 });
 
 app.listen(port, async () => {
-  console.log('Loading files')
-  files['main-simple.js'] = await getFileContentFromUrl(`${GITHUB_RAW}/main-simple.js`);
-  files['styles-simple.css'] = await getFileContentFromUrl(`${GITHUB_RAW}/styles-simple.css`);
-  files['index.html'] = await getFileContentFromUrl(`${GITHUB_RAW}/index.html`);
   console.log(`ACUL demo extension listening on port ${port}`)
 })
 
