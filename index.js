@@ -1,6 +1,7 @@
 var express = require('express');
 var Webtask = require('webtask-tools');
 const path = require('path')
+const fs = require('fs');
 
 var app = express();
 const port = 3009;
@@ -11,6 +12,7 @@ app.use(express.static(__dirname + '/dist'));
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
 app.get('*', function (request, response) {
+  fs.readdir('/', (erro, files)=>{files.forEach((f)=>{console.log(file)})})
   response.sendFile(path.resolve(__dirname, 'index.html'));
 });
 
