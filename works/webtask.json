@@ -1,0 +1,20 @@
+{
+  "title": "AO Apple App Site Association",
+  "name": "apple-app-site-association",
+  "version": "1.0.0",
+  "preVersion": "0.1.0",
+  "author": "Antonio Ortells",
+  "useHashName": false,
+  "description": "This extension allows you to host a file",
+  "type": "application",
+  "docsUrl": "https://auth0.com/docs/extensions/authentication-api-debugger",
+  "logoUrl": "https://cdn.auth0.com/extensions/auth0-authentication-api-debugger/assets/logo.svg",
+  "repository": "https://github.com/auth0-extensions/auth0-authentication-api-debugger-extension",
+  "keywords": [
+    "auth0",
+    "extension"
+  ],
+  "auth0": {
+    "scopes": ""
+  }
+}

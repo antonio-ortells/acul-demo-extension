@@ -1,0 +1,23 @@
+{
+  "name": "ao-apple-app-site-association",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonio-ortells/ao-apple-app-site-association.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/antonio-ortells/ao-apple-app-site-association/issues"
+  },
+  "homepage": "https://github.com/antonio-ortells/ao-apple-app-site-association#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "webtask-tools": "^3.4.1"
+  }
+}
