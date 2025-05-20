@@ -1,18 +1,20 @@
 var express = require('express');
 var Webtask = require('webtask-tools');
-var request = require('request');
 
 var app = express();
 const port = 3000;
 
-app.get('/', function (req, res) {
-  console.log('Requested Callback - Angular (4200)')
-  let url = `http://localhost:4200/${req.originalUrl.replace('/webtask-localhost-redir', '')}`
-  res.redirect(url);
+// serve static assets normally
+app.use(express.static(__dirname + '/dist'));
+
+// handle every other route with index.html, which will contain
+// a script tag to your application's JavaScript file(s).
+app.get('*', function (request, response) {
+  response.sendFile(path.resolve(__dirname, 'index.html'));
 });
 
 app.listen(port, () => {
-  console.log(`Localhost Redir listening on port ${port}`)
+  console.log(`ACUL demo extension listening on port ${port}`)
 })
 
 module.exports = Webtask.fromExpress(app);

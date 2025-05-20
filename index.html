@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth0 Configuration</title>
+    <style>
+        /* Importar una fuente de Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            align-items: center;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-container label {
+            flex-shrink: 0;
+            width: 180px;
+            text-align: right;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .input-container input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .main-accordion-section {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-accordion-header {
+            background-color: #e0f7fa;
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .main-accordion-header h2 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #00838f;
+        }
+
+        .main-accordion-content {
+            padding: 20px;
+            display: none;
+            background-color: #f9f9f9;
+            display: flex;
+            gap: 15px;
+        }
+
+        .accordion-section {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .accordion-header {
+            background-color: #f9fbe7;
+            padding: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .accordion-header h3 {
+            margin: 0;
+            font-size: 1.1em;
+            color: #558b2f;
+        }
+
+        .accordion-content {
+            padding: 15px;
+            display: none;
+            background-color: #fefefe;
+        }
+
+        .accordion-content button {
+            padding: 10px 18px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 6px;
+            background-color: #00acc1;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .accordion-content button:hover {
+            background-color: #00838f;
+        }
+
+        .arrow {
+            transition: transform 0.3s ease-in-out;
+            color: #777;
+        }
+
+        .arrow.open {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body>
+    <h1>Advanced Customizations Proof of Concept</h1>
+
+    <div class="input-container">
+        <label for="auth0Domain">Auth0 Domain:</label>
+        <input type="text" id="auth0Domain" placeholder="your-domain.auth0.com">
+    </div>
+    <div class="input-container">
+        <label for="apiToken">Auth0 Management API Token:</label>
+        <input type="text" id="apiToken" placeholder="your-api-token">
+    </div>
+
+    <div class="main-accordion-section">
+        <div class="main-accordion-header" onclick="toggleAccordion('simple-acul-screens')">
+            <h2>Simple ACUL screens <span class="arrow">&#9658;</span></h2>
+        </div>
+        <div id="simple-acul-screens" class="main-accordion-content">
+            <div class="accordion-section">
+                <div class="accordion-header" onclick="toggleAccordion('login-id-section')">
+                    <h3>login-id screens <span class="arrow">&#9658;</span></h3>
+                </div>
+                <div id="login-id-section" class="accordion-content">
+                    <button onclick="executeCall('set', 'login-id', 'login-id', this)">Set login-id ACUL</button>
+                    <button onclick="executeCall('unset', 'login-id', 'login-id', this)">Unset login-id ACUL</button>
+                </div>
+            </div>
+
+            <div class="accordion-section">
+                <div class="accordion-header" onclick="toggleAccordion('login-password-section')">
+                    <h3>login-password screens <span class="arrow">&#9658;</span></h3>
+                </div>
+                <div id="login-password-section" class="accordion-content">
+                    <button onclick="executeCall('set', 'login-password', 'login-password', this)">Set login-password ACUL</button>
+                    <button onclick="executeCall('unset', 'login-password', 'login-password', this)">Unset login-password ACUL</button>
+                </div>
+            </div>
+
+            <div class="accordion-section">
+                <div class="accordion-header" onclick="toggleAccordion('login-section')">
+                    <h3>login screens <span class="arrow">&#9658;</span></h3>
+                </div>
+                <div id="login-section" class="accordion-content">
+                    <button onclick="executeCall('set', 'login', 'login', this)">Set login ACUL</button>
+                    <button onclick="executeCall('unset', 'login', 'login', this)">Unset login ACUL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-accordion-section">
+        <div class="main-accordion-header" onclick="toggleAccordion('acul-invitation-flow')">
+            <h2>ACUL Invitation Flow <span class="arrow">&#9658;</span></h2>
+        </div>
+        <div id="acul-invitation-flow" class="main-accordion-content">
+            <div class="accordion-section">
+                <div class="accordion-header" onclick="toggleAccordion('invitation-email-section')">
+                    <h3>invitation-email screens <span class="arrow">&#9658;</span></h3>
+                </div>
+                <div id="invitation-email-section" class="accordion-content">
+                    <button onclick="executeCall('set', 'invitation-email', 'invitation-email', this)">Set invitation-email ACUL</button>
+                    <button onclick="executeCall('unset', 'invitation-email', 'invitation-email', this)">Unset invitation-email ACUL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-accordion-section">
+        <div class="main-accordion-header" onclick="toggleAccordion('acul-with-routing')">
+            <h2>ACUL with Routing <span class="arrow">&#9658;</span></h2>
+        </div>
+        <div id="acul-with-routing" class="main-accordion-content">
+            <div class="accordion-section">
+                <div class="accordion-header" onclick="toggleAccordion('routing-login-section')">
+                    <h3>routing-login screens <span class="arrow">&#9658;</span></h3>
+                </div>
+                <div id="routing-login-section" class="accordion-content">
+                    <button onclick="executeCall('set', 'routing-login', 'routing-login', this)">Set routing-login ACUL</button>
+                    <button onclick="executeCall('unset', 'routing-login', 'routing-login', this)">Unset routing-login ACUL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function executeCall(op, prompt, screen, buttonElement) {
+            const domainInput = document.getElementById('auth0Domain');
+            const tokenInput = document.getElementById('apiToken');
+            const domain = domainInput.value;
+            const token = tokenInput.value;
+
+            if (!domain || !token) {
+                alert('Please enter both Auth0 Domain and Management API Token.');
+                return;
+            }
+
+            const url = `https://${domain}/api/v2/prompts/${prompt}/screen/${screen}/rendering`;
+            const headers = {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            };
+
+            let bodyContent = {
+                rendering_mode: 'advanced',
+                context_configuration: [
+                    "branding.settings",
+                    "branding.themes.default",
+                    "client.logo_uri",
+                    "client.description",
+                    "client.metadata.brand",
+                    "organization.branding",
+                    "organization.display_name",
+                    "organization.metadata.brand",
+                    "screen.texts",
+                    "tenant.name",
+                    "tenant.friendly_name",
+                    "tenant.enabled_locales",
+                    "untrusted_data.submitted_form_data",
+                    "untrusted_data.authorization_params.ui_locales",
+                    "untrusted_data.authorization_params.login_hint",
+                    "untrusted_data.authorization_params.screen_hint",
+                    "untrusted_data.authorization_params.ext-foo"
+                ],
+                default_head_tags_disabled: false,
+                head_tags: [
+                    {
+                        tag: "script",
+                        attributes: {
+                            src: "https://www.toniortells.es/main-simple.js",
+                            defer: true
+                        }
+                    },
+                    {
+                        tag: "link",
+                        attributes: {
+                            rel: "stylesheet",
+                            href: "https://www.toniortells.es/styles-simple.css"
+                        }
+                    }
+                ]
+            };
+
+            if (op === 'unset') {
+                bodyContent = { rendering_mode: 'standard' };
+            } else {
+                // Determine the main accordion section
+                let mainSection = buttonElement.closest('.main-accordion-section');
+                if (mainSection) {
+                    const sectionId = mainSection.id;
+                    if (sectionId === 'acul-invitation-flow') {
+                        bodyContent.head_tags[0].attributes.src = bodyContent.head_tags[0].attributes.src.replace('-simple', '-invitation');
+                        bodyContent.head_tags[1].attributes.href = bodyContent.head_tags[1].attributes.href.replace('-simple', '-invitation');
+                    } else if (sectionId === 'acul-with-routing') {
+                        bodyContent.head_tags[0].attributes.src = bodyContent.head_tags[0].attributes.src.replace('-simple', '-routing');
+                        bodyContent.head_tags[1].attributes.href = bodyContent.head_tags[1].attributes.href.replace('-simple', '-routing');
+                    }
+                }
+            }
+
+            const body = JSON.stringify(bodyContent);
+            const method = 'PATCH';
+
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: headers,
+                    body: body
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('API Error:', errorData);
+                    alert(`API Error: ${response.status} - ${JSON.stringify(errorData)}`);
+                    return;
+                }
+
+                const data = await response.json();
+                console.log('API Response:', data);
+                alert('API call successful!');
+
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                alert(`Fetch Error: ${error.message}`);
+            }
+        }
+
+        function toggleAccordion(sectionId) {
+            const section = document.getElementById(sectionId);
+            const header = section.previousElementSibling;
+            const arrow = header.querySelector('.arrow');
+
+            if (section.style.display === 'block') {
+                section.style.display = 'none';
+                arrow.classList.remove('open');
+            } else {
+                section.style.display = 'block';
+                arrow.classList.add('open');
+            }
+
+            // Ensure the main accordion is also open when a sub-section is opened
+            const mainAccordionContent = section.parentElement;
+            if (mainAccordionContent.classList.contains('main-accordion-content') && section.style.display === 'block') {
+                if (mainAccordionContent.style.display !== 'flex') {
+                    mainAccordionContent.style.display = 'flex';
+                    const mainAccordionHeader = mainAccordionContent.previousElementSibling;
+                    const mainArrow = mainAccordionHeader.querySelector('.arrow');
+                    mainArrow.classList.add('open');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
