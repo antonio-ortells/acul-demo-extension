@@ -1,8 +1,9 @@
 var express = require('express');
 var Webtask = require('webtask-tools');
+const path = require('path')
 
 var app = express();
-const port = 3000;
+const port = 3009;
 
 // serve static assets normally
 app.use(express.static(__dirname + '/dist'));
